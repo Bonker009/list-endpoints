@@ -34,6 +34,8 @@ async function ensureDirectories() {
 }
 
 export async function GET(request: NextRequest) {
+  await ensureDirectories(); // Ensure directories exist before reading
+
   const searchParams = request.nextUrl.searchParams;
   const type = searchParams.get("type");
   const id = searchParams.get("id") || "default";
@@ -88,6 +90,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  await ensureDirectories(); // Ensure directories exist before writing
+
   try {
     const body = await request.json();
     const { type, id = "default", data } = body;
@@ -128,6 +132,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  await ensureDirectories(); // Ensure directories exist before deleting
+
   const searchParams = request.nextUrl.searchParams;
   const type = searchParams.get("type");
   const id = searchParams.get("id") || "default";

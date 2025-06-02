@@ -26,6 +26,21 @@ export default function Home() {
   const [specs, setSpecs] = useState<ApiSpec[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Helper to get unique display names with (1), (2), ...
+  const getDisplayNames = (specs: ApiSpec[]) => {
+    const nameCount: Record<string, number> = {};
+    return specs.map((spec) => {
+      let base = spec.title || "Untitled";
+      if (!nameCount[base]) {
+        nameCount[base] = 1;
+        return { ...spec, displayTitle: base };
+      } else {
+        nameCount[base]++;
+        return { ...spec, displayTitle: `${base} (${nameCount[base]})` };
+      }
+    });
+  };
+
   useEffect(() => {
     async function loadSpecs() {
       try {
@@ -53,6 +68,9 @@ export default function Home() {
     }
   };
 
+  // Use displayTitle for rendering
+  const displaySpecs = getDisplayNames(specs);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header
@@ -77,9 +95,9 @@ export default function Home() {
                   <Skeleton className="h-12 w-full" />
                   <Skeleton className="h-12 w-full" />
                 </div>
-              ) : specs.length > 0 ? (
+              ) : displaySpecs.length > 0 ? (
                 <div className="space-y-2">
-                  {specs.map((spec) => (
+                  {displaySpecs.map((spec) => (
                     <div
                       key={spec.id}
                       className="border rounded-md overflow-hidden"
@@ -88,7 +106,7 @@ export default function Home() {
                         <div className="flex items-center mb-2 md:mb-0">
                           <FileText className="h-5 w-5 mr-3 text-blue-500" />
                           <div>
-                            <div className="font-medium">{spec.title}</div>
+                            <div className="font-medium">{spec.displayTitle}</div>
                             <div className="text-sm text-gray-500">
                               Version: {spec.version}
                             </div>

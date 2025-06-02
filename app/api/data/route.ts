@@ -107,7 +107,13 @@ export async function POST(request: NextRequest) {
 
     switch (type) {
       case "spec":
-        filePath = path.join(SPECS_DIR, `${id}.json`);
+        const uniqueId = `${id}_${Date.now()}`;
+        const latestPath = path.join(SPECS_DIR, `${id}.json`);
+        const versionedPath = path.join(SPECS_DIR, `${uniqueId}.json`);
+        fs.writeFileSync(versionedPath, JSON.stringify(data, null, 2));
+        fs.writeFileSync(latestPath, JSON.stringify(data, null, 2));
+        // Assign filePath to latestPath so it's defined for the next line
+        filePath = latestPath;
         break;
       case "status":
         filePath = path.join(STATUS_DIR, `${id}.json`);

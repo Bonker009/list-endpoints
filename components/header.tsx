@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Home, FlaskConical, Database } from "lucide-react";
+import { ArrowLeft, Home, FlaskConical } from "lucide-react";
 
 type HeaderProps = {
   title: string;
@@ -70,18 +70,6 @@ export function Header({
               </Button>
             </Link>
           )} */}
-          {pathname !== "/database-schema" && (
-            <Link href="/database-schema">
-              <Button
-                variant="outline"
-                className="flex items-center gap-2 border-blue-200 text-blue-700 hover:bg-blue-50 transition"
-                size="sm"
-              >
-                <Database className="h-4 w-4" />
-                <span>Database Schema</span>
-              </Button>
-            </Link>
-          )}
         </nav>
       </div>
     </header>

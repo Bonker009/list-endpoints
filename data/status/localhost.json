@@ -1,8 +1,0 @@
-[
-  {
-    "path": "/api/v1/update-resume",
-    "method": "put",
-    "working": true,
-    "notes": ""
-  }
-]
